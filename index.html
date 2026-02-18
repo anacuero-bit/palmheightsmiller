@@ -1,3 +1,27 @@
+<!--
+  CHANGELOG
+  ═════════
+  v2 — 2026-02-18
+  - FIX: Removed broken <img> tags that caused blank sections when image files missing
+  - FIX: All image slots now use CSS background-image with gradient fallbacks (looks polished without images, better with them)
+  - FIX: Hero video source restored to local hero.mp4
+  - FIX: Hero overlay lightened (opacity .55, gradient .15/.35/.75 vs old .35/.3/.65/.75)
+  - FIX: Removed poster.jpg dependency
+  - ADD: About section image slot (right column) with gradient fill
+  - ADD: Full-width cinematic divider between Fear and Markets
+  - ADD: Destination cards now have image headers with gradient defaults
+  - ADD: Insight cards have image headers with gradient defaults
+  - ADD: CTA section has background image slot with gradient default
+  - ADD: All images activate by simply placing named files in same folder (CSS handles it)
+  - KEEP: All content, structure, footer, services, process unchanged from v1
+  
+  v1 — 2026-02-18
+  - Initial Palm Heights & Miller rebrand from Meridian Capital
+  - Offices: Dubai (HQ), Miami, Madrid
+  - Markets: UAE, USA, Europe
+  - Hero video with overlay + trust stats
+  - Full site: About, Fear, Markets (tabbed), Services, Process, Trust, Insights, CTA, Footer
+-->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -24,7 +48,6 @@
   --gold: #C4A265;
   --gold-light: #D4B57A;
   --gold-muted: #B8965A;
-  --gold-pale: rgba(196,162,101,0.06);
 }
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
@@ -33,17 +56,14 @@ body{font-family:'DM Sans',sans-serif;background:var(--cream);color:var(--obsidi
 img{max-width:100%;display:block}
 a{text-decoration:none;color:inherit}
 button{font-family:inherit;cursor:pointer;border:none;background:none}
-.serif{font-family:'Cormorant Garamond',Georgia,serif}
 
-/* ── Animations ── */
 @keyframes heroFade{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:translateY(0)}}
 @keyframes lineGrow{from{width:0}to{width:80px}}
 @keyframes pulse{0%,100%{opacity:.25}50%{opacity:.7}}
 @keyframes marquee{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-@keyframes shimmer{0%{background-position:-200% 0}100%{background-position:200% 0}}
 .reveal{opacity:0;transform:translateY(30px);transition:opacity .85s cubic-bezier(.16,1,.3,1),transform .85s cubic-bezier(.16,1,.3,1)}
 .reveal.vis{opacity:1;transform:translateY(0)}
-.reveal-d1{transition-delay:.1s}.reveal-d2{transition-delay:.2s}.reveal-d3{transition-delay:.3s}.reveal-d4{transition-delay:.4s}
+.reveal-d1{transition-delay:.1s}.reveal-d2{transition-delay:.2s}.reveal-d3{transition-delay:.3s}
 
 /* ═══════════════ NAV ═══════════════ */
 .nav{position:fixed;top:0;left:0;right:0;z-index:1000;display:flex;align-items:center;justify-content:space-between;padding:24px 52px;transition:all .45s ease}
@@ -71,7 +91,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .mob-menu a{font-size:13px;letter-spacing:3px;text-transform:uppercase;font-weight:500;color:var(--cream)}
 .mob-menu .cta-pill{margin-top:12px;padding:14px 32px}
 
-/* ═══════════════ HERO — LIGHTENED OVERLAY ═══════════════ */
+/* ═══════════════ HERO ═══════════════ */
 .hero{position:relative;min-height:100vh;display:flex;align-items:center;overflow:hidden;background:var(--obsidian)}
 .hero-video{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.55}
 .hero-overlay{position:absolute;inset:0;background:linear-gradient(180deg,rgba(9,9,11,.15) 0%,rgba(9,9,11,.35) 40%,rgba(9,9,11,.75) 100%)}
@@ -110,13 +130,13 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .sec-title{font-family:'Cormorant Garamond',serif;font-size:clamp(28px,3.6vw,44px);font-weight:400;line-height:1.18;letter-spacing:-.3px;max-width:600px}
 .sec-intro{max-width:540px;font-size:15px;line-height:1.75;color:var(--pewter);margin-top:16px;font-weight:300}
 
-/* ═══════════════ ABOUT — WITH IMAGE ═══════════════ */
+/* ═══════════════ ABOUT ═══════════════ */
 .about{background:var(--white)}
 .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;margin-top:48px;align-items:start}
 .about-text p{font-size:15px;line-height:1.8;color:var(--steel);font-weight:300;margin-bottom:16px}
 .about-text p:first-child::first-letter{font-family:'Cormorant Garamond',serif;font-size:52px;float:left;line-height:1;margin-right:8px;color:var(--gold);font-weight:400}
 .about-img-wrap{position:relative}
-.about-img{width:100%;height:520px;object-fit:cover;filter:saturate(.85)}
+.about-img{width:100%;height:520px;background:linear-gradient(135deg,var(--graphite),var(--slate));background-size:cover;background-position:center;filter:saturate(.85)}
 .about-img-frame{position:absolute;top:20px;left:20px;right:-20px;bottom:-20px;border:1px solid var(--gold);opacity:.25;pointer-events:none}
 .about-pillars{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:32px}
 .about-pillar{padding:24px;border:1px solid rgba(10,10,11,.06);background:var(--cream);transition:all .3s}
@@ -138,10 +158,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .fear-card h4{font-size:16px;font-weight:500;margin-top:8px;letter-spacing:.3px}
 .fear-card p{font-size:13px;line-height:1.7;color:var(--silver);margin-top:10px;font-weight:300}
 
-/* ═══════════════ FULL-WIDTH IMAGE DIVIDER ═══════════════ */
-.img-divider{width:100%;height:380px;position:relative;overflow:hidden}
-.img-divider img{width:100%;height:100%;object-fit:cover;filter:saturate(.8)}
-.img-divider-overlay{position:absolute;inset:0;background:linear-gradient(180deg,var(--obsidian) 0%,transparent 20%,transparent 80%,var(--cream) 100%)}
+/* ═══════════════ DIVIDER ═══════════════ */
+.img-divider{width:100%;height:360px;position:relative;overflow:hidden;background:linear-gradient(135deg,var(--charcoal),#1A2744,var(--graphite));background-size:cover;background-position:center}
+.img-divider-overlay{position:absolute;inset:0;background:linear-gradient(180deg,var(--obsidian) 0%,rgba(9,9,11,.4) 30%,rgba(9,9,11,.4) 70%,var(--cream) 100%)}
 .img-divider-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:2}
 .img-divider-text span{font-family:'Cormorant Garamond',serif;font-size:clamp(18px,2.4vw,28px);font-style:italic;color:var(--cream);letter-spacing:2px;text-shadow:0 2px 30px rgba(0,0,0,.5);text-align:center;padding:0 20px}
 
@@ -158,10 +177,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .dest-card:hover{border-color:rgba(196,162,101,.2);transform:translateY(-3px);box-shadow:0 16px 48px rgba(10,10,11,.08)}
 .dest-card::after{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .4s}
 .dest-card:hover::after{transform:scaleX(1)}
-.dest-card-img{width:100%;height:200px;object-fit:cover;transition:transform .6s;filter:saturate(.85)}
+.dest-card-img{width:100%;height:200px;background-size:cover;background-position:center;position:relative;transition:transform .6s;filter:saturate(.85)}
 .dest-card:hover .dest-card-img{transform:scale(1.03)}
 .dest-card-img-wrap{overflow:hidden;position:relative}
-.dest-card-img-wrap::after{content:'';position:absolute;bottom:0;left:0;right:0;height:60px;background:linear-gradient(transparent,var(--white))}
+.dest-card-img-wrap::after{content:'';position:absolute;bottom:0;left:0;right:0;height:60px;background:linear-gradient(transparent,var(--white));z-index:1}
 .dest-card-badge{position:absolute;top:14px;left:14px;padding:5px 12px;background:rgba(9,9,11,.55);backdrop-filter:blur(10px);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:500;z-index:2}
 .dest-card-body{padding:20px 24px 28px}
 .dest-city{font-family:'Cormorant Garamond',serif;font-size:26px;font-weight:500}
@@ -179,7 +198,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .svc-card::before{content:'';position:absolute;top:0;left:0;width:0;height:2px;background:var(--gold);transition:width .5s}
 .svc-card:hover::before{width:100%}
 .svc-card:hover{background:var(--cream)}
-.svc-icon{font-size:28px;margin-bottom:8px}
 .svc-num{font-family:'Cormorant Garamond',serif;font-size:32px;color:var(--gold);opacity:.35;font-weight:300}
 .svc-title{font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:500;margin-top:10px}
 .svc-desc{font-size:13px;line-height:1.7;color:var(--pewter);margin-top:8px;font-weight:300}
@@ -204,13 +222,13 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .trust-logos{display:flex;justify-content:center;gap:48px;margin-top:44px;flex-wrap:wrap}
 .trust-logo{font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--pewter);opacity:.5;font-weight:400}
 
-/* ═══════════════ INSIGHTS — WITH IMAGES ═══════════════ */
+/* ═══════════════ INSIGHTS ═══════════════ */
 .insights{background:var(--white)}
 .insights-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:44px}
 .insight-card{border:1px solid rgba(10,10,11,.06);background:var(--white);overflow:hidden;transition:all .35s}
 .insight-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(10,10,11,.06)}
-.insight-img-wrap{height:210px;overflow:hidden;position:relative}
-.insight-img{width:100%;height:100%;object-fit:cover;transition:transform .6s;filter:saturate(.85)}
+.insight-img{height:210px;background-size:cover;background-position:center;position:relative;overflow:hidden;transition:transform .6s;filter:saturate(.85)}
+.insight-img-wrap{overflow:hidden;position:relative}
 .insight-card:hover .insight-img{transform:scale(1.04)}
 .insight-tag{position:absolute;top:14px;left:14px;padding:5px 12px;background:rgba(9,9,11,.6);backdrop-filter:blur(10px);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:500;z-index:2}
 .insight-body{padding:24px}
@@ -221,9 +239,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .insight-link:hover{gap:10px}
 .insight-link svg{width:14px;height:14px}
 
-/* ═══════════════ CTA — WITH BG IMAGE ═══════════════ */
-.cta-sec{position:relative;text-align:center;overflow:hidden;color:var(--cream);padding:0}
-.cta-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:saturate(.7)}
+/* ═══════════════ CTA ═══════════════ */
+.cta-sec{position:relative;text-align:center;overflow:hidden;color:var(--cream);background:linear-gradient(135deg,var(--charcoal),var(--obsidian));background-size:cover;background-position:center}
 .cta-overlay{position:absolute;inset:0;background:rgba(9,9,11,.78)}
 .cta-inner{position:relative;z-index:2;padding:100px 52px}
 .cta-sec .sec-title{color:var(--cream);margin:0 auto;font-size:clamp(26px,3.5vw,40px)}
@@ -240,7 +257,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 /* ═══════════════ FOOTER ═══════════════ */
 .footer{background:var(--obsidian);color:var(--pewter);padding:0}
 .footer-main{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1.2fr;gap:40px;padding:64px 52px 48px;border-bottom:1px solid rgba(255,255,255,.04)}
-.footer-brand-col{}
 .footer-brand-name{font-size:13px;letter-spacing:4px;text-transform:uppercase;color:var(--cream);font-weight:600}
 .footer-brand-tag{font-family:'Cormorant Garamond',serif;font-size:14px;font-style:italic;color:var(--gold);margin-top:6px;opacity:.7}
 .footer-brand-desc{font-size:12.5px;line-height:1.7;color:var(--pewter);margin-top:14px;max-width:280px;font-weight:300}
@@ -263,10 +279,6 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .footer-legal-links a{font-size:10px;color:var(--slate);letter-spacing:.5px;transition:color .2s}
 .footer-legal-links a:hover{color:var(--pewter)}
 .footer-disclaimer{padding:0 52px 28px;font-size:10px;color:var(--slate);line-height:1.6;max-width:800px;letter-spacing:.2px}
-
-/* ═══════════════ IMAGE PLACEHOLDERS (gradient fills until real images) ═══════════════ */
-.img-placeholder{background:linear-gradient(135deg,var(--graphite) 0%,var(--slate) 50%,var(--graphite) 100%);background-size:200% 200%;animation:shimmer 3s ease infinite;display:flex;align-items:center;justify-content:center}
-.img-placeholder span{font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--pewter);opacity:.5}
 
 /* ═══════════════ RESPONSIVE ═══════════════ */
 @media(max-width:1024px){
@@ -343,13 +355,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 
 <!-- ═══════ HERO ═══════ -->
 <section class="hero">
-  <!-- Replace src with your generated hero.mp4 -->
-  <video class="hero-video" autoplay muted loop playsinline poster="poster.jpg">
+  <video class="hero-video" autoplay muted loop playsinline>
     <source src="hero.mp4" type="video/mp4">
   </video>
   <div class="hero-overlay"></div>
   <div class="hero-grain"></div>
-  
   <div class="hero-content">
     <div class="hero-badge">
       <span class="hero-badge-dot"></span>
@@ -363,37 +373,19 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
       <button class="btn-ghost" onclick="scrollTo('#markets')">Explore Markets</button>
     </div>
     <div class="hero-trust">
-      <div class="hero-trust-item">
-        <div class="hero-trust-val">$2.4B+</div>
-        <div class="hero-trust-label">Capital Deployed</div>
-      </div>
-      <div class="hero-trust-item">
-        <div class="hero-trust-val">30+</div>
-        <div class="hero-trust-label">Residency Programs</div>
-      </div>
-      <div class="hero-trust-item">
-        <div class="hero-trust-val">1,200+</div>
-        <div class="hero-trust-label">HNWI Families</div>
-      </div>
-      <div class="hero-trust-item">
-        <div class="hero-trust-val">98%</div>
-        <div class="hero-trust-label">Visa Approval Rate</div>
-      </div>
+      <div class="hero-trust-item"><div class="hero-trust-val">$2.4B+</div><div class="hero-trust-label">Capital Deployed</div></div>
+      <div class="hero-trust-item"><div class="hero-trust-val">30+</div><div class="hero-trust-label">Residency Programs</div></div>
+      <div class="hero-trust-item"><div class="hero-trust-val">1,200+</div><div class="hero-trust-label">HNWI Families</div></div>
+      <div class="hero-trust-item"><div class="hero-trust-val">98%</div><div class="hero-trust-label">Visa Approval Rate</div></div>
     </div>
   </div>
-  
-  <div class="hero-scroll">
-    <span>Scroll</span>
-    <div class="hero-scroll-line"></div>
-  </div>
+  <div class="hero-scroll"><span>Scroll</span><div class="hero-scroll-line"></div></div>
 </section>
 
 <!-- MARQUEE -->
-<div class="marquee">
-  <div class="marquee-track" id="marqueeTrack"></div>
-</div>
+<div class="marquee"><div class="marquee-track" id="marqueeTrack"></div></div>
 
-<!-- ═══════ ABOUT — with image ═══════ -->
+<!-- ═══════ ABOUT ═══════ -->
 <section class="sec about" id="about">
   <div class="reveal">
     <div class="sec-label">Who We Are</div>
@@ -405,27 +397,15 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
       <p>Headquartered in Dubai with offices in Miami and Madrid, we advise high-net-worth individuals, family offices, and institutional allocators who seek to deploy capital across the UAE, United States, and Europe — simultaneously acquiring world-class real estate assets while securing tax-efficient residency, golden visas, and pathways to second citizenship.</p>
       <p>Our clients don't just buy property. They architect a multi-jurisdictional life — hedged against political volatility, optimized for generational wealth transfer, and designed for complete geographic freedom.</p>
       <div class="about-pillars">
-        <div class="about-pillar">
-          <h4>Capital Appreciation</h4>
-          <p>Access to pre-market and off-plan assets in the highest-yielding corridors across three continents.</p>
-        </div>
-        <div class="about-pillar">
-          <h4>Tax Efficiency</h4>
-          <p>Holding structures, domicile planning, and cross-border optimization to legally minimize effective tax rates.</p>
-        </div>
-        <div class="about-pillar">
-          <h4>Global Residency</h4>
-          <p>Golden visa, permanent residency, and citizenship-by-investment processing across 30+ active programs.</p>
-        </div>
-        <div class="about-pillar">
-          <h4>Risk Diversification</h4>
-          <p>Multi-jurisdictional asset and residency layering to hedge against geo-political and regulatory risk.</p>
-        </div>
+        <div class="about-pillar"><h4>Capital Appreciation</h4><p>Access to pre-market and off-plan assets in the highest-yielding corridors across three continents.</p></div>
+        <div class="about-pillar"><h4>Tax Efficiency</h4><p>Holding structures, domicile planning, and cross-border optimization to legally minimize effective tax rates.</p></div>
+        <div class="about-pillar"><h4>Global Residency</h4><p>Golden visa, permanent residency, and citizenship-by-investment processing across 30+ active programs.</p></div>
+        <div class="about-pillar"><h4>Risk Diversification</h4><p>Multi-jurisdictional asset and residency layering to hedge against geo-political and regulatory risk.</p></div>
       </div>
     </div>
+    <!-- IMAGE: drop about-hero.jpg in folder to activate -->
     <div class="about-img-wrap reveal reveal-d2">
-      <!-- Replace with about-hero.jpg -->
-      <img class="about-img img-placeholder" src="about-hero.jpg" alt="Luxury penthouse terrace Dubai" onerror="this.style.background='linear-gradient(135deg,#1E1E22,#2A2A30)';this.alt=''">
+      <div class="about-img" id="aboutImg"></div>
       <div class="about-img-frame"></div>
     </div>
   </div>
@@ -439,32 +419,16 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
     <p class="sec-intro">Geo-political instability, tightening tax regimes, and closing residency windows are compressing the timeline for decisive action.</p>
   </div>
   <div class="fear-cards reveal reveal-d1">
-    <div class="fear-card">
-      <div class="fear-num">01</div>
-      <h4>Single-Jurisdiction Exposure</h4>
-      <p>73% of HNWIs hold assets in one country. A single regulatory shift — capital controls, wealth taxes, CBI closures — can erode decades of wealth in months. Spain's golden visa closed April 2025. Portugal ended its real estate route. Which program closes next?</p>
-    </div>
-    <div class="fear-card">
-      <div class="fear-num">02</div>
-      <h4>Passport Depreciation</h4>
-      <p>Global mobility is diverging. While some passports gain access, others lose it. The gap between the most and least mobile nationalities has never been wider. Residency options available today carry no guarantee of existing tomorrow.</p>
-    </div>
-    <div class="fear-card">
-      <div class="fear-num">03</div>
-      <h4>Escalating Tax Transparency</h4>
-      <p>CRS, FATCA, BEPS 2.0, and global minimum tax frameworks are eliminating opacity. Strategic residency structuring — not secrecy — is the only compliant path to tax efficiency. The window to restructure is narrow and closing.</p>
-    </div>
+    <div class="fear-card"><div class="fear-num">01</div><h4>Single-Jurisdiction Exposure</h4><p>73% of HNWIs hold assets in one country. A single regulatory shift — capital controls, wealth taxes, CBI closures — can erode decades of wealth in months. Spain's golden visa closed April 2025. Portugal ended its real estate route. Which program closes next?</p></div>
+    <div class="fear-card"><div class="fear-num">02</div><h4>Passport Depreciation</h4><p>Global mobility is diverging. While some passports gain access, others lose it. The gap between the most and least mobile nationalities has never been wider. Residency options available today carry no guarantee of existing tomorrow.</p></div>
+    <div class="fear-card"><div class="fear-num">03</div><h4>Escalating Tax Transparency</h4><p>CRS, FATCA, BEPS 2.0, and global minimum tax frameworks are eliminating opacity. Strategic residency structuring — not secrecy — is the only compliant path to tax efficiency. The window to restructure is narrow and closing.</p></div>
   </div>
 </section>
 
-<!-- ═══════ FULL-WIDTH IMAGE DIVIDER ═══════ -->
-<div class="img-divider">
-  <!-- Replace with divider-yacht.jpg -->
-  <img src="divider-yacht.jpg" alt="" onerror="this.style.background='linear-gradient(135deg,#151518,#1A2744)';this.style.display='block';this.style.width='100%';this.style.height='100%'">
+<!-- ═══════ DIVIDER — IMAGE: drop divider-yacht.jpg in folder to activate ═══════ -->
+<div class="img-divider" id="dividerImg">
   <div class="img-divider-overlay"></div>
-  <div class="img-divider-text">
-    <span>Three continents. One integrated strategy. Thirty programs. Infinite possibilities.</span>
-  </div>
+  <div class="img-divider-text"><span>Three continents. One integrated strategy. Thirty programs. Infinite possibilities.</span></div>
 </div>
 
 <!-- ═══════ MARKETS ═══════ -->
@@ -487,107 +451,24 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
     <h2 class="sec-title">End-to-end. From strategy<br>through to keys in hand.</h2>
   </div>
   <div class="services-grid reveal reveal-d1">
-    <div class="svc-card">
-      <div class="svc-num">01</div>
-      <div class="svc-title">Real Estate Advisory</div>
-      <p class="svc-desc">Curated portfolios across Dubai, Miami, Madrid, Athens, Lisbon and beyond — structured for yield, appreciation, and visa qualification.</p>
-      <ul class="svc-list">
-        <li>Off-market and pre-launch access</li>
-        <li>Branded residence allocation</li>
-        <li>Due diligence and valuation</li>
-        <li>Portfolio construction</li>
-      </ul>
-    </div>
-    <div class="svc-card">
-      <div class="svc-num">02</div>
-      <div class="svc-title">Residency &amp; Citizenship</div>
-      <p class="svc-desc">Full-service golden visa, investor visa, and CBI processing across 30+ programs in the UAE, USA, and Europe.</p>
-      <ul class="svc-list">
-        <li>UAE Golden Visa (10-year)</li>
-        <li>US EB-5 investor visa</li>
-        <li>EU golden visa programs</li>
-        <li>Caribbean CBI passports</li>
-      </ul>
-    </div>
-    <div class="svc-card">
-      <div class="svc-num">03</div>
-      <div class="svc-title">Tax &amp; Holding Structures</div>
-      <p class="svc-desc">Cross-border optimization, corporate structuring, and domicile planning within full legal compliance.</p>
-      <ul class="svc-list">
-        <li>UAE free zone company formation</li>
-        <li>EU holding structures</li>
-        <li>US LLC and trust planning</li>
-        <li>CRS/FATCA compliance</li>
-      </ul>
-    </div>
-    <div class="svc-card">
-      <div class="svc-num">04</div>
-      <div class="svc-title">Wealth &amp; Succession</div>
-      <p class="svc-desc">Multi-generational asset protection, family office advisory, and estate planning across jurisdictions.</p>
-      <ul class="svc-list">
-        <li>Family trust structures</li>
-        <li>Succession and estate planning</li>
-        <li>Insurance and asset protection</li>
-        <li>Multi-generation wealth transfer</li>
-      </ul>
-    </div>
-    <div class="svc-card">
-      <div class="svc-num">05</div>
-      <div class="svc-title">Property Management</div>
-      <p class="svc-desc">Full post-acquisition lifecycle management to maximize rental yield and maintain asset value.</p>
-      <ul class="svc-list">
-        <li>Tenant acquisition and management</li>
-        <li>Yield optimization and reporting</li>
-        <li>Renovation and fit-out</li>
-        <li>Short-term rental strategy</li>
-      </ul>
-    </div>
-    <div class="svc-card">
-      <div class="svc-num">06</div>
-      <div class="svc-title">Relocation &amp; Lifestyle</div>
-      <p class="svc-desc">White-glove relocation services for individuals and families transitioning to a new jurisdiction.</p>
-      <ul class="svc-list">
-        <li>School and healthcare enrollment</li>
-        <li>Banking and account setup</li>
-        <li>Concierge and lifestyle services</li>
-        <li>Cultural integration support</li>
-      </ul>
-    </div>
+    <div class="svc-card"><div class="svc-num">01</div><div class="svc-title">Real Estate Advisory</div><p class="svc-desc">Curated portfolios across Dubai, Miami, Madrid, Athens, Lisbon and beyond — structured for yield, appreciation, and visa qualification.</p><ul class="svc-list"><li>Off-market and pre-launch access</li><li>Branded residence allocation</li><li>Due diligence and valuation</li><li>Portfolio construction</li></ul></div>
+    <div class="svc-card"><div class="svc-num">02</div><div class="svc-title">Residency &amp; Citizenship</div><p class="svc-desc">Full-service golden visa, investor visa, and CBI processing across 30+ programs in the UAE, USA, and Europe.</p><ul class="svc-list"><li>UAE Golden Visa (10-year)</li><li>US EB-5 investor visa</li><li>EU golden visa programs</li><li>Caribbean CBI passports</li></ul></div>
+    <div class="svc-card"><div class="svc-num">03</div><div class="svc-title">Tax &amp; Holding Structures</div><p class="svc-desc">Cross-border optimization, corporate structuring, and domicile planning within full legal compliance.</p><ul class="svc-list"><li>UAE free zone company formation</li><li>EU holding structures</li><li>US LLC and trust planning</li><li>CRS/FATCA compliance</li></ul></div>
+    <div class="svc-card"><div class="svc-num">04</div><div class="svc-title">Wealth &amp; Succession</div><p class="svc-desc">Multi-generational asset protection, family office advisory, and estate planning across jurisdictions.</p><ul class="svc-list"><li>Family trust structures</li><li>Succession and estate planning</li><li>Insurance and asset protection</li><li>Multi-generation wealth transfer</li></ul></div>
+    <div class="svc-card"><div class="svc-num">05</div><div class="svc-title">Property Management</div><p class="svc-desc">Full post-acquisition lifecycle management to maximize rental yield and maintain asset value.</p><ul class="svc-list"><li>Tenant acquisition and management</li><li>Yield optimization and reporting</li><li>Renovation and fit-out</li><li>Short-term rental strategy</li></ul></div>
+    <div class="svc-card"><div class="svc-num">06</div><div class="svc-title">Relocation &amp; Lifestyle</div><p class="svc-desc">White-glove relocation services for individuals and families transitioning to a new jurisdiction.</p><ul class="svc-list"><li>School and healthcare enrollment</li><li>Banking and account setup</li><li>Concierge and lifestyle services</li><li>Cultural integration support</li></ul></div>
   </div>
 </section>
 
 <!-- ═══════ PROCESS ═══════ -->
 <section class="sec process" id="process">
-  <div class="reveal">
-    <div class="sec-label">Our Process</div>
-    <h2 class="sec-title">Precision at every stage.</h2>
-  </div>
+  <div class="reveal"><div class="sec-label">Our Process</div><h2 class="sec-title">Precision at every stage.</h2></div>
   <div class="process-timeline reveal reveal-d1">
-    <div class="process-step">
-      <div class="process-dot"></div>
-      <h4>01 · Discovery</h4>
-      <p>Confidential profiling of your financial position, family structure, mobility objectives, and risk tolerance.</p>
-    </div>
-    <div class="process-step">
-      <div class="process-dot"></div>
-      <h4>02 · Strategy</h4>
-      <p>Custom multi-jurisdiction blueprint pairing destinations, property types, visa pathways, and holding structures.</p>
-    </div>
-    <div class="process-step">
-      <div class="process-dot"></div>
-      <h4>03 · Execution</h4>
-      <p>Property acquisition, legal completion, corporate structuring, and concurrent residency applications.</p>
-    </div>
-    <div class="process-step">
-      <div class="process-dot"></div>
-      <h4>04 · Activation</h4>
-      <p>Visa issuance, bank accounts, relocation logistics, tenant placement, and asset management.</p>
-    </div>
-    <div class="process-step">
-      <div class="process-dot"></div>
-      <h4>05 · Stewardship</h4>
-      <p>Ongoing portfolio management, compliance monitoring, regulatory updates, and annual strategy reviews.</p>
-    </div>
+    <div class="process-step"><div class="process-dot"></div><h4>01 · Discovery</h4><p>Confidential profiling of your financial position, family structure, mobility objectives, and risk tolerance.</p></div>
+    <div class="process-step"><div class="process-dot"></div><h4>02 · Strategy</h4><p>Custom multi-jurisdiction blueprint pairing destinations, property types, visa pathways, and holding structures.</p></div>
+    <div class="process-step"><div class="process-dot"></div><h4>03 · Execution</h4><p>Property acquisition, legal completion, corporate structuring, and concurrent residency applications.</p></div>
+    <div class="process-step"><div class="process-dot"></div><h4>04 · Activation</h4><p>Visa issuance, bank accounts, relocation logistics, tenant placement, and asset management.</p></div>
+    <div class="process-step"><div class="process-dot"></div><h4>05 · Stewardship</h4><p>Ongoing portfolio management, compliance monitoring, regulatory updates, and annual strategy reviews.</p></div>
   </div>
 </section>
 
@@ -608,7 +489,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
   </div>
 </section>
 
-<!-- ═══════ INSIGHTS — with images ═══════ -->
+<!-- ═══════ INSIGHTS ═══════ -->
 <section class="sec insights" id="insights">
   <div class="reveal">
     <div class="sec-label">Insights &amp; Research</div>
@@ -616,51 +497,22 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
   </div>
   <div class="insights-grid reveal reveal-d1">
     <div class="insight-card">
-      <div class="insight-img-wrap">
-        <!-- Replace with insight-dubai.jpg -->
-        <img class="insight-img" src="insight-dubai.jpg" alt="Dubai tower architecture" onerror="this.style.background='linear-gradient(135deg,#151518,#1A2744)';this.style.display='block'">
-        <span class="insight-tag">Market Report</span>
-      </div>
-      <div class="insight-body">
-        <div class="insight-date">February 2026</div>
-        <div class="insight-title">Dubai Real Estate Outlook: Why Net Yields Continue to Outpace Global Peers</div>
-        <p class="insight-excerpt">Prime Dubai apartments deliver 5–7% net yields while London and Singapore struggle to breach 2%.</p>
-        <a href="#" class="insight-link">Read Report <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-      </div>
+      <div class="insight-img-wrap"><div class="insight-img" style="background:linear-gradient(135deg,var(--charcoal),#1A2744)"></div><span class="insight-tag">Market Report</span></div>
+      <div class="insight-body"><div class="insight-date">February 2026</div><div class="insight-title">Dubai Real Estate Outlook: Why Net Yields Continue to Outpace Global Peers</div><p class="insight-excerpt">Prime Dubai apartments deliver 5–7% net yields while London and Singapore struggle to breach 2%.</p><a href="#" class="insight-link">Read Report <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
     </div>
     <div class="insight-card">
-      <div class="insight-img-wrap">
-        <!-- Replace with insight-visa.jpg -->
-        <img class="insight-img" src="insight-visa.jpg" alt="Passport and documents" onerror="this.style.background='linear-gradient(135deg,#2A2A30,#1B5E40)';this.style.display='block'">
-        <span class="insight-tag">Regulatory Alert</span>
-      </div>
-      <div class="insight-body">
-        <div class="insight-date">January 2026</div>
-        <div class="insight-title">Golden Visa 2026: Which Programs Are Closing — and What Opens Next</div>
-        <p class="insight-excerpt">Spain closed. Portugal shifted. Greece restructured. A current-state analysis of every active program.</p>
-        <a href="#" class="insight-link">Read Report <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-      </div>
+      <div class="insight-img-wrap"><div class="insight-img" style="background:linear-gradient(135deg,var(--slate),#1B5E40)"></div><span class="insight-tag">Regulatory Alert</span></div>
+      <div class="insight-body"><div class="insight-date">January 2026</div><div class="insight-title">Golden Visa 2026: Which Programs Are Closing — and What Opens Next</div><p class="insight-excerpt">Spain closed. Portugal shifted. Greece restructured. A current-state analysis of every active program.</p><a href="#" class="insight-link">Read Report <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
     </div>
     <div class="insight-card">
-      <div class="insight-img-wrap">
-        <!-- Replace with insight-tax.jpg -->
-        <img class="insight-img" src="insight-tax.jpg" alt="Tax strategy office" onerror="this.style.background='linear-gradient(135deg,#B8965A,#151518)';this.style.display='block'">
-        <span class="insight-tag">Tax Strategy</span>
-      </div>
-      <div class="insight-body">
-        <div class="insight-date">December 2025</div>
-        <div class="insight-title">UAE Free Zone vs. US LLC: Structuring Cross-Border Holdings in 2026</div>
-        <p class="insight-excerpt">A comparative analysis of holding structures for investors across Dubai, Miami, and European markets.</p>
-        <a href="#" class="insight-link">Read Report <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a>
-      </div>
+      <div class="insight-img-wrap"><div class="insight-img" style="background:linear-gradient(135deg,var(--gold-muted),var(--charcoal))"></div><span class="insight-tag">Tax Strategy</span></div>
+      <div class="insight-body"><div class="insight-date">December 2025</div><div class="insight-title">UAE Free Zone vs. US LLC: Structuring Cross-Border Holdings in 2026</div><p class="insight-excerpt">A comparative analysis of holding structures for investors across Dubai, Miami, and European markets.</p><a href="#" class="insight-link">Read Report <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
     </div>
   </div>
 </section>
 
-<!-- ═══════ CTA — with bg image ═══════ -->
+<!-- ═══════ CTA — IMAGE: drop cta-bg.jpg in folder to activate ═══════ -->
 <section class="cta-sec" id="contact">
-  <!-- Replace with cta-bg.jpg -->
-  <img class="cta-bg" src="cta-bg.jpg" alt="" onerror="this.style.background='linear-gradient(135deg,#151518,#09090B)';this.style.display='block'">
   <div class="cta-overlay"></div>
   <div class="cta-inner">
     <div class="reveal">
@@ -668,20 +520,11 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
       <h2 class="sec-title">Your next residence is<br>also your next investment.</h2>
       <p class="cta-sub">Confidential, obligation-free consultation with our senior advisory team. We'll map your optimal jurisdictions and present a preliminary strategy within 48 hours.</p>
       <button class="btn-primary">Schedule a Private Consultation</button>
-      <p class="cta-email">Or reach us directly at <a href="/cdn-cgi/l/email-protection#41282f372432350131202d2c292428262935322c282d2d24336f222e2c"><span class="__cf_email__" data-cfemail="a8c1c6decddbdce8d8c9c4c5c0cdc1cfc0dcdbc5c1c4c4cdda86cbc7c5">[email&#160;protected]</span></a></p>
+      <p class="cta-email">Or reach us directly at <a href="mailto:invest@palmheightsmiller.com">invest@palmheightsmiller.com</a></p>
       <div class="cta-channels">
-        <div class="cta-channel">
-          <div class="cta-channel-label">Dubai (HQ)</div>
-          <div class="cta-channel-val">+971 4 XXX XXXX</div>
-        </div>
-        <div class="cta-channel">
-          <div class="cta-channel-label">Miami</div>
-          <div class="cta-channel-val">+1 (305) XXX-XXXX</div>
-        </div>
-        <div class="cta-channel">
-          <div class="cta-channel-label">Madrid</div>
-          <div class="cta-channel-val">+34 91 XXX XXXX</div>
-        </div>
+        <div class="cta-channel"><div class="cta-channel-label">Dubai (HQ)</div><div class="cta-channel-val">+971 4 XXX XXXX</div></div>
+        <div class="cta-channel"><div class="cta-channel-label">Miami</div><div class="cta-channel-val">+1 (305) XXX-XXXX</div></div>
+        <div class="cta-channel"><div class="cta-channel-label">Madrid</div><div class="cta-channel-val">+34 91 XXX XXXX</div></div>
       </div>
     </div>
   </div>
@@ -690,249 +533,148 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 <!-- ═══════ FOOTER ═══════ -->
 <footer class="footer">
   <div class="footer-main">
-    <div class="footer-brand-col">
+    <div>
       <div class="footer-brand-name">Palm Heights & Miller</div>
       <div class="footer-brand-tag">Real Estate · Residency · Return</div>
       <p class="footer-brand-desc">Coupling premium real estate investment with global residency structuring and offshore tax efficiency for the world's most discerning investors. Headquartered in Dubai since 2024.</p>
     </div>
-    <div class="footer-col">
-      <h5>Markets</h5>
-      <a href="#">Dubai, UAE</a>
-      <a href="#">Abu Dhabi, UAE</a>
-      <a href="#">Ras Al Khaimah, UAE</a>
-      <a href="#">Miami, USA</a>
-      <a href="#">New York, USA</a>
-      <a href="#">Madrid, Spain</a>
-      <a href="#">Athens, Greece</a>
-      <a href="#">Lisbon, Portugal</a>
-      <a href="#">Valletta, Malta</a>
-    </div>
-    <div class="footer-col">
-      <h5>Services</h5>
-      <a href="#">Real Estate Advisory</a>
-      <a href="#">Golden Visa Processing</a>
-      <a href="#">Citizenship by Investment</a>
-      <a href="#">Tax &amp; Holding Structures</a>
-      <a href="#">Wealth &amp; Succession</a>
-      <a href="#">Property Management</a>
-      <a href="#">Relocation Services</a>
-      <a href="#">Family Office Advisory</a>
-    </div>
-    <div class="footer-col">
-      <h5>Company</h5>
-      <a href="#">About Us</a>
-      <a href="#">Leadership Team</a>
-      <a href="#">Client Stories</a>
-      <a href="#">Insights &amp; Research</a>
-      <a href="#">Press &amp; Media</a>
-      <a href="#">Careers</a>
-      <a href="#">Partner With Us</a>
-      <a href="#">Contact</a>
-    </div>
-    <div class="footer-col">
-      <h5>Our Offices</h5>
-      <div class="footer-offices-grid">
-        <div>
-          <div class="footer-office-city">Dubai <span class="footer-office-hq">HQ</span></div>
-          <div class="footer-office-addr">Office [XX], Level [XX]<br>DIFC Gate Village<br>Dubai, UAE</div>
-        </div>
-        <div>
-          <div class="footer-office-city">Miami</div>
-          <div class="footer-office-addr">Suite [XX]<br>Brickell City Centre<br>Miami, FL 33131</div>
-        </div>
-        <div>
-          <div class="footer-office-city">Madrid</div>
-          <div class="footer-office-addr">Planta [X]<br>Paseo de la Castellana<br>28046 Madrid, Spain</div>
-        </div>
-      </div>
-    </div>
+    <div class="footer-col"><h5>Markets</h5><a href="#">Dubai, UAE</a><a href="#">Abu Dhabi, UAE</a><a href="#">Ras Al Khaimah, UAE</a><a href="#">Miami, USA</a><a href="#">New York, USA</a><a href="#">Madrid, Spain</a><a href="#">Athens, Greece</a><a href="#">Lisbon, Portugal</a><a href="#">Valletta, Malta</a></div>
+    <div class="footer-col"><h5>Services</h5><a href="#">Real Estate Advisory</a><a href="#">Golden Visa Processing</a><a href="#">Citizenship by Investment</a><a href="#">Tax &amp; Holding Structures</a><a href="#">Wealth &amp; Succession</a><a href="#">Property Management</a><a href="#">Relocation Services</a><a href="#">Family Office Advisory</a></div>
+    <div class="footer-col"><h5>Company</h5><a href="#">About Us</a><a href="#">Leadership Team</a><a href="#">Client Stories</a><a href="#">Insights &amp; Research</a><a href="#">Press &amp; Media</a><a href="#">Careers</a><a href="#">Partner With Us</a><a href="#">Contact</a></div>
+    <div class="footer-col"><h5>Our Offices</h5><div class="footer-offices-grid"><div><div class="footer-office-city">Dubai <span class="footer-office-hq">HQ</span></div><div class="footer-office-addr">Office [XX], Level [XX]<br>DIFC Gate Village<br>Dubai, UAE</div></div><div><div class="footer-office-city">Miami</div><div class="footer-office-addr">Suite [XX]<br>Brickell City Centre<br>Miami, FL 33131</div></div><div><div class="footer-office-city">Madrid</div><div class="footer-office-addr">Planta [X]<br>Paseo de la Castellana<br>28046 Madrid, Spain</div></div></div></div>
   </div>
   <div class="footer-mid">
-    <div class="footer-social">
-      <a href="#">LinkedIn</a>
-      <a href="#">Instagram</a>
-      <a href="#">X / Twitter</a>
-      <a href="#">YouTube</a>
-    </div>
-    <div class="footer-badges">
-      <span class="footer-badge">RERA Registered</span>
-      <span class="footer-badge">DIFC Regulated</span>
-      <span class="footer-badge">SEC Compliant</span>
-    </div>
+    <div class="footer-social"><a href="#">LinkedIn</a><a href="#">Instagram</a><a href="#">X / Twitter</a><a href="#">YouTube</a></div>
+    <div class="footer-badges"><span class="footer-badge">RERA Registered</span><span class="footer-badge">DIFC Regulated</span><span class="footer-badge">SEC Compliant</span></div>
   </div>
   <div class="footer-bottom">
     <span class="footer-legal">&copy; 2026 Palm Heights & Miller Advisory Ltd. All rights reserved.</span>
-    <div class="footer-legal-links">
-      <a href="#">Privacy Policy</a>
-      <a href="#">Terms of Service</a>
-      <a href="#">Cookie Policy</a>
-      <a href="#">AML Policy</a>
-      <a href="#">Complaints Procedure</a>
-      <a href="#">Regulatory Disclosures</a>
-    </div>
+    <div class="footer-legal-links"><a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">Cookie Policy</a><a href="#">AML Policy</a><a href="#">Complaints Procedure</a><a href="#">Regulatory Disclosures</a></div>
   </div>
-  <div class="footer-disclaimer">
-    Palm Heights & Miller Advisory Ltd is registered in the Dubai International Financial Centre. Real estate brokerage services are provided through licensed affiliates regulated by the Real Estate Regulatory Agency (RERA) in the UAE, the Florida Department of Business and Professional Regulation in the USA, and applicable regulatory bodies in the European Union. Immigration and citizenship advisory services are provided in partnership with licensed immigration consultants in each jurisdiction. This website does not constitute an offer, solicitation, or recommendation to buy or sell any investment, nor does it constitute tax, legal, or immigration advice. Past performance is not indicative of future results. All investments carry risk including potential loss of capital.
-  </div>
+  <div class="footer-disclaimer">Palm Heights & Miller Advisory Ltd is registered in the Dubai International Financial Centre. Real estate brokerage services are provided through licensed affiliates regulated by the Real Estate Regulatory Agency (RERA) in the UAE, the Florida Department of Business and Professional Regulation in the USA, and applicable regulatory bodies in the European Union. Immigration and citizenship advisory services are provided in partnership with licensed immigration consultants in each jurisdiction. This website does not constitute an offer, solicitation, or recommendation to buy or sell any investment, nor does it constitute tax, legal, or immigration advice. Past performance is not indicative of future results. All investments carry risk including potential loss of capital.</div>
 </footer>
 
+<script>
+/*
+  IMAGE ACTIVATION
+  ================
+  All image slots use CSS background-image with gradient defaults.
+  To activate an image, just drop the named file in the same folder.
+  This script checks if each file exists and applies it. If not, gradient stays.
+*/
+var imageSlots = [
+  {id:'aboutImg', file:'about-hero.jpg'},
+  {id:'dividerImg', file:'divider-yacht.jpg'},
+  {id:'ctaSec', sel:'.cta-sec', file:'cta-bg.jpg'},
+  {id:'insightImg0', sel:'.insight-img-wrap:nth-child(1) .insight-img', file:'insight-dubai.jpg', idx:0},
+  {id:'insightImg1', file:'insight-visa.jpg', idx:1},
+  {id:'insightImg2', file:'insight-tax.jpg', idx:2}
+];
+imageSlots.forEach(function(s){
+  var img = new Image();
+  img.onload = function(){
+    var el = s.id ? document.getElementById(s.id) : document.querySelector(s.sel);
+    if(el) el.style.backgroundImage = 'url('+s.file+')';
+  };
+  img.src = s.file;
+});
+// Insight images by index
+document.querySelectorAll('.insight-img').forEach(function(el,i){
+  var files = ['insight-dubai.jpg','insight-visa.jpg','insight-tax.jpg'];
+  if(files[i]){
+    var img = new Image();
+    img.onload = function(){ el.style.backgroundImage = 'url('+files[i]+')'; };
+    img.src = files[i];
+  }
+});
+// CTA background
+(function(){
+  var img = new Image();
+  img.onload = function(){
+    var el = document.querySelector('.cta-sec');
+    if(el) el.style.backgroundImage = 'url(cta-bg.jpg)';
+  };
+  img.src = 'cta-bg.jpg';
+})();
 
-<!-- ═══════ JAVASCRIPT ═══════ -->
-<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
+/* MARKET DATA */
 var marketData = {
   uae: {
-    label: "UAE",
-    destinations: [
-      {
-        city:"Dubai",country:"UAE",flag:"🇦🇪",img:"dubai-card.jpg",badge:"Flagship Market",
-        yield:"5–7%",visa:"10-Year Golden Visa",min:"AED 2M (~$545K)",
-        sub:"The Global Capital of HNWI Migration",
-        desc:"81,000+ millionaires, $63B in projected private wealth inflows, and net yields 2–3x higher than London or Singapore. Zero income tax, zero capital gains, world-class infrastructure.",
-        stats:[{l:"Net Yield",v:"5–7%"},{l:"Residency",v:"10-Year Golden Visa"},{l:"Minimum",v:"AED 2M"},{l:"Tax Rate",v:"0% Income Tax"}]
-      },
-      {
-        city:"Abu Dhabi",country:"UAE",flag:"🇦🇪",img:"abudhabi-card.jpg",badge:"Institutional Grade",
-        yield:"4–6%",visa:"10-Year Golden Visa",min:"AED 2M (~$545K)",
-        sub:"Sovereign-Backed Stability",
-        desc:"The UAE capital offers sovereign wealth-backed infrastructure, emerging cultural districts (Saadiyat), and branded residences with lower entry prices than Dubai prime.",
-        stats:[{l:"Net Yield",v:"4–6%"},{l:"Residency",v:"10-Year Golden Visa"},{l:"Minimum",v:"AED 2M"},{l:"Growth",v:"Emerging Prime"}]
-      },
-      {
-        city:"Ras Al Khaimah",country:"UAE",flag:"🇦🇪",img:"rak-card.jpg",badge:"Early Mover",
-        yield:"7–10%",visa:"UAE Golden Visa",min:"From AED 750K",
-        sub:"Pre-Appreciation Frontier",
-        desc:"Pre-appreciation pricing on branded resort residences. Wynn Resort opening 2027 will catalyze a structural repricing. Early-mover advantage with full UAE golden visa eligibility.",
-        stats:[{l:"Net Yield",v:"7–10%"},{l:"Residency",v:"UAE Golden Visa"},{l:"Minimum",v:"AED 750K"},{l:"Catalyst",v:"Wynn 2027"}]
-      }
+    label:"UAE",
+    destinations:[
+      {city:"Dubai",flag:"🇦🇪",img:"dubai-card.jpg",badge:"Flagship Market",bg:"linear-gradient(135deg,#1A2744,#2A2A30)",sub:"The Global Capital of HNWI Migration",desc:"81,000+ millionaires, $63B in projected private wealth inflows, and net yields 2–3x higher than London or Singapore. Zero income tax, zero capital gains, world-class infrastructure.",stats:[{l:"Net Yield",v:"5–7%"},{l:"Residency",v:"10-Year Golden Visa"},{l:"Minimum",v:"AED 2M"},{l:"Tax Rate",v:"0% Income Tax"}]},
+      {city:"Abu Dhabi",flag:"🇦🇪",img:"abudhabi-card.jpg",badge:"Institutional Grade",bg:"linear-gradient(135deg,#1E1E22,#2A2A30)",sub:"Sovereign-Backed Stability",desc:"The UAE capital offers sovereign wealth-backed infrastructure, emerging cultural districts (Saadiyat), and branded residences with lower entry prices than Dubai prime.",stats:[{l:"Net Yield",v:"4–6%"},{l:"Residency",v:"10-Year Golden Visa"},{l:"Minimum",v:"AED 2M"},{l:"Growth",v:"Emerging Prime"}]},
+      {city:"Ras Al Khaimah",flag:"🇦🇪",img:"rak-card.jpg",badge:"Early Mover",bg:"linear-gradient(135deg,#2A2A30,#1B5E40)",sub:"Pre-Appreciation Frontier",desc:"Pre-appreciation pricing on branded resort residences. Wynn Resort opening 2027 will catalyze a structural repricing. Early-mover advantage with full UAE golden visa eligibility.",stats:[{l:"Net Yield",v:"7–10%"},{l:"Residency",v:"UAE Golden Visa"},{l:"Minimum",v:"AED 750K"},{l:"Catalyst",v:"Wynn 2027"}]}
     ]
   },
   usa: {
-    label: "USA",
-    destinations: [
-      {
-        city:"Miami",country:"USA",flag:"🇺🇸",img:"miami-card.jpg",badge:"Americas Gateway",
-        yield:"3–5%",visa:"EB-5 Investor Visa",min:"$800K (EB-5 TEA)",
-        sub:"America's Capital Destination",
-        desc:"Miami has displaced New York as the US capital destination for global HNWI investors. No state income tax, booming luxury market, and EB-5 investor visa pathway to permanent residency.",
-        stats:[{l:"Net Yield",v:"3–5%"},{l:"Residency",v:"EB-5 Green Card"},{l:"Minimum",v:"$800K"},{l:"State Tax",v:"0% Income Tax"}]
-      },
-      {
-        city:"New York",country:"USA",flag:"🇺🇸",img:"newyork-card.jpg",badge:"Trophy Market",
-        yield:"2–4%",visa:"EB-5 Investor Visa",min:"$1.05M (Standard)",
-        sub:"The Global Benchmark",
-        desc:"Manhattan remains the global benchmark for ultra-prime real estate. Lower yields but unmatched liquidity, prestige, and long-term capital preservation for generational portfolios.",
-        stats:[{l:"Net Yield",v:"2–4%"},{l:"Residency",v:"EB-5 Green Card"},{l:"Minimum",v:"$1.05M"},{l:"Profile",v:"Capital Preservation"}]
-      }
+    label:"USA",
+    destinations:[
+      {city:"Miami",flag:"🇺🇸",img:"miami-card.jpg",badge:"Americas Gateway",bg:"linear-gradient(135deg,#1A2744,#1B5E40)",sub:"America's Capital Destination",desc:"Miami has displaced New York as the US capital destination for global HNWI investors. No state income tax, booming luxury market, and EB-5 investor visa pathway to permanent residency.",stats:[{l:"Net Yield",v:"3–5%"},{l:"Residency",v:"EB-5 Green Card"},{l:"Minimum",v:"$800K"},{l:"State Tax",v:"0% Income Tax"}]},
+      {city:"New York",flag:"🇺🇸",img:"newyork-card.jpg",badge:"Trophy Market",bg:"linear-gradient(135deg,#151518,#2A2A30)",sub:"The Global Benchmark",desc:"Manhattan remains the global benchmark for ultra-prime real estate. Lower yields but unmatched liquidity, prestige, and long-term capital preservation for generational portfolios.",stats:[{l:"Net Yield",v:"2–4%"},{l:"Residency",v:"EB-5 Green Card"},{l:"Minimum",v:"$1.05M"},{l:"Profile",v:"Capital Preservation"}]}
     ]
   },
   europe: {
-    label: "Europe",
-    destinations: [
-      {
-        city:"Athens",country:"Greece",flag:"🇬🇷",img:"athens-card.jpg",badge:"Best Value EU",
-        yield:"4–6%",visa:"Golden Visa (5-year)",min:"€250K–€800K",
-        sub:"Europe's Most Accessible Golden Visa",
-        desc:"Tiered system: €800K in prime zones, €400K in urban areas, €250K on smaller islands. Full Schengen access. Citizenship pathway at 7 years.",
-        stats:[{l:"Net Yield",v:"4–6%"},{l:"Residency",v:"5-Year Golden Visa"},{l:"Minimum",v:"€250K"},{l:"Schengen",v:"Full Access"}]
-      },
-      {
-        city:"Lisbon",country:"Portugal",flag:"🇵🇹",img:"lisbon-card.jpg",badge:"EU Citizenship",
-        yield:"3–5%",visa:"Golden Visa (Fund)",min:"€500K (VC Fund)",
-        sub:"Fund-Based EU Pathway",
-        desc:"Post-2023 reforms ended the real estate route but the fund-based pathway remains highly attractive — diversified exposure with a clear path to EU citizenship in ~7 years.",
-        stats:[{l:"Route",v:"Investment Fund"},{l:"Residency",v:"Golden Visa"},{l:"Minimum",v:"€500K"},{l:"Citizenship",v:"~7 Years"}]
-      },
-      {
-        city:"Madrid",country:"Spain",flag:"🇪🇸",img:"madrid-card.jpg",badge:"Lifestyle Capital",
-        yield:"3–4.5%",visa:"Non-Lucrative / D7",min:"Varies",
-        sub:"Europe's Lifestyle Capital",
-        desc:"Spain's golden visa closed April 2025 but alternative residency routes remain. Exceptional quality of life, strong rental demand, and access to the EU's fourth-largest economy.",
-        stats:[{l:"Net Yield",v:"3–4.5%"},{l:"Residency",v:"Alternative Routes"},{l:"Profile",v:"Lifestyle + Yield"},{l:"Economy",v:"EU 4th Largest"}]
-      },
-      {
-        city:"Valletta",country:"Malta",flag:"🇲🇹",img:"malta-card.jpg",badge:"Permanent EU",
-        yield:"3.5–5%",visa:"MPRP (Permanent)",min:"€150K+ (contrib + RE)",
-        sub:"Lifetime EU Residency",
-        desc:"One of the EU's most affordable permanent residency programs. English-speaking, corporate-friendly tax structures, and lifetime Schengen area access.",
-        stats:[{l:"Net Yield",v:"3.5–5%"},{l:"Residency",v:"Permanent (Lifetime)"},{l:"Minimum",v:"€150K+"},{l:"Language",v:"English"}]
-      }
+    label:"Europe",
+    destinations:[
+      {city:"Athens",flag:"🇬🇷",img:"athens-card.jpg",badge:"Best Value EU",bg:"linear-gradient(135deg,#B8965A,#1E1E22)",sub:"Europe's Most Accessible Golden Visa",desc:"Tiered system: €800K in prime zones, €400K in urban areas, €250K on smaller islands. Full Schengen access. Citizenship pathway at 7 years.",stats:[{l:"Net Yield",v:"4–6%"},{l:"Residency",v:"5-Year Golden Visa"},{l:"Minimum",v:"€250K"},{l:"Schengen",v:"Full Access"}]},
+      {city:"Lisbon",flag:"🇵🇹",img:"lisbon-card.jpg",badge:"EU Citizenship",bg:"linear-gradient(135deg,#8B4513,#1E1E22)",sub:"Fund-Based EU Pathway",desc:"Post-2023 reforms ended the real estate route but the fund-based pathway remains highly attractive — diversified exposure with a clear path to EU citizenship in ~7 years.",stats:[{l:"Route",v:"Investment Fund"},{l:"Residency",v:"Golden Visa"},{l:"Minimum",v:"€500K"},{l:"Citizenship",v:"~7 Years"}]},
+      {city:"Madrid",flag:"🇪🇸",img:"madrid-card.jpg",badge:"Lifestyle Capital",bg:"linear-gradient(135deg,#2A2A30,#4A4A54)",sub:"Europe's Lifestyle Capital",desc:"Spain's golden visa closed April 2025 but alternative residency routes remain. Exceptional quality of life, strong rental demand, and access to the EU's fourth-largest economy.",stats:[{l:"Net Yield",v:"3–4.5%"},{l:"Residency",v:"Alternative Routes"},{l:"Profile",v:"Lifestyle + Yield"},{l:"Economy",v:"EU 4th Largest"}]},
+      {city:"Valletta",flag:"🇲🇹",img:"malta-card.jpg",badge:"Permanent EU",bg:"linear-gradient(135deg,#C4A265,#1A2744)",sub:"Lifetime EU Residency",desc:"One of the EU's most affordable permanent residency programs. English-speaking, corporate-friendly tax structures, and lifetime Schengen area access.",stats:[{l:"Net Yield",v:"3.5–5%"},{l:"Residency",v:"Permanent (Lifetime)"},{l:"Minimum",v:"€150K+"},{l:"Language",v:"English"}]}
     ]
   }
 };
 
-var activeMarket = 'uae';
-
+var activeMarket='uae';
 function renderMarkets(){
-  var tabs = document.getElementById('marketTabs');
-  var panels = document.getElementById('marketPanels');
-  tabs.innerHTML = '';
-  panels.innerHTML = '';
-  
+  var tabs=document.getElementById('marketTabs'),panels=document.getElementById('marketPanels');
+  tabs.innerHTML='';panels.innerHTML='';
   Object.keys(marketData).forEach(function(key){
-    var m = marketData[key];
-    var tab = document.createElement('div');
-    tab.className = 'market-tab' + (key === activeMarket ? ' active' : '');
-    tab.textContent = m.label;
-    tab.onclick = function(){ activeMarket = key; renderMarkets(); };
+    var m=marketData[key];
+    var tab=document.createElement('div');
+    tab.className='market-tab'+(key===activeMarket?' active':'');
+    tab.textContent=m.label;
+    tab.onclick=function(){activeMarket=key;renderMarkets()};
     tabs.appendChild(tab);
-    
-    var panel = document.createElement('div');
-    panel.className = 'market-panel' + (key === activeMarket ? ' active' : '');
-    var cards = '<div class="dest-cards">';
+    var panel=document.createElement('div');
+    panel.className='market-panel'+(key===activeMarket?' active':'');
+    var cards='<div class="dest-cards">';
     m.destinations.forEach(function(d){
-      var statsHtml = '';
-      d.stats.forEach(function(s){
-        statsHtml += '<div class="dest-stat"><div class="dest-stat-label">'+s.l+'</div><div class="dest-stat-val">'+s.v+'</div></div>';
-      });
-      cards += '<div class="dest-card">' +
-        '<div class="dest-card-img-wrap">' +
-          '<img class="dest-card-img" src="'+d.img+'" alt="'+d.city+'" onerror="this.style.background=\'linear-gradient(135deg,#1E1E22,#2A2A30)\';this.style.display=\'block\';this.style.height=\'200px\'">' +
-          '<span class="dest-card-badge">'+d.badge+'</span>' +
-        '</div>' +
-        '<div class="dest-card-body">' +
-          '<div class="dest-city">'+d.city+'</div>' +
-          '<div class="dest-sub">'+d.sub+'</div>' +
-          '<p class="dest-desc">'+d.desc+'</p>' +
-          '<div class="dest-stats">'+statsHtml+'</div>' +
-        '</div></div>';
+      var statsH='';
+      d.stats.forEach(function(s){statsH+='<div class="dest-stat"><div class="dest-stat-label">'+s.l+'</div><div class="dest-stat-val">'+s.v+'</div></div>'});
+      cards+='<div class="dest-card"><div class="dest-card-img-wrap"><div class="dest-card-img" style="background:'+d.bg+'" data-img="'+d.img+'"></div><span class="dest-card-badge">'+d.badge+'</span></div><div class="dest-card-body"><div class="dest-city">'+d.flag+' '+d.city+'</div><div class="dest-sub">'+d.sub+'</div><p class="dest-desc">'+d.desc+'</p><div class="dest-stats">'+statsH+'</div></div></div>';
     });
-    cards += '</div>';
-    panel.innerHTML = cards;
+    cards+='</div>';
+    panel.innerHTML=cards;
     panels.appendChild(panel);
+  });
+  // Try loading destination images
+  document.querySelectorAll('.dest-card-img[data-img]').forEach(function(el){
+    var f=el.getAttribute('data-img');
+    var img=new Image();
+    img.onload=function(){el.style.backgroundImage='url('+f+')'};
+    img.src=f;
   });
 }
 
 function renderMarquee(){
-  var cities = ['Dubai','Miami','Madrid','Athens','Abu Dhabi','Lisbon','Ras Al Khaimah','Malta','New York','Singapore'];
-  var track = document.getElementById('marqueeTrack');
-  var html = '';
-  for(var r=0;r<3;r++){
-    cities.forEach(function(c){ html += '<span class="marquee-item"><span class="marquee-dot"></span>'+c+'</span>'; });
-  }
-  track.innerHTML = html;
+  var cities=['Dubai','Miami','Madrid','Athens','Abu Dhabi','Lisbon','Ras Al Khaimah','Malta','New York','Singapore'];
+  var track=document.getElementById('marqueeTrack'),html='';
+  for(var r=0;r<3;r++){cities.forEach(function(c){html+='<span class="marquee-item"><span class="marquee-dot"></span>'+c+'</span>'})}
+  track.innerHTML=html;
 }
 
-window.addEventListener('scroll',function(){
-  document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 50);
-});
-
-function toggleMenu(){
-  document.getElementById('hamburger').classList.toggle('open');
-  document.getElementById('mobMenu').classList.toggle('open');
-  document.body.style.overflow = document.getElementById('mobMenu').classList.contains('open') ? 'hidden' : '';
-}
-function closeMenu(){
-  document.getElementById('hamburger').classList.remove('open');
-  document.getElementById('mobMenu').classList.remove('open');
-  document.body.style.overflow = '';
-}
-function scrollTo(sel){
-  var el = document.querySelector(sel);
-  if(el) el.scrollIntoView({behavior:'smooth'});
-}
+window.addEventListener('scroll',function(){document.getElementById('nav').classList.toggle('scrolled',window.scrollY>50)});
+function toggleMenu(){document.getElementById('hamburger').classList.toggle('open');document.getElementById('mobMenu').classList.toggle('open');document.body.style.overflow=document.getElementById('mobMenu').classList.contains('open')?'hidden':''}
+function closeMenu(){document.getElementById('hamburger').classList.remove('open');document.getElementById('mobMenu').classList.remove('open');document.body.style.overflow=''}
+function scrollTo(sel){var el=document.querySelector(sel);if(el)el.scrollIntoView({behavior:'smooth'})}
 
 function initReveals(){
-  var els = document.querySelectorAll('.reveal');
-  var obs = new IntersectionObserver(function(entries){
-    entries.forEach(function(e){
-      if(e.isIntersecting){ e.target.classList.add('v
+  var obs=new IntersectionObserver(function(entries){entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('vis');obs.unobserve(e.target)}})},{threshold:0.1});
+  document.querySelectorAll('.reveal').forEach(function(el){obs.observe(el)});
+}
+
+document.addEventListener('DOMContentLoaded',function(){renderMarkets();renderMarquee();initReveals()});
+</script>
+</body>
+</html>
