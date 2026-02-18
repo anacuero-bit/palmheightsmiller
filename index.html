@@ -345,7 +345,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 <section class="hero">
   <!-- Replace src with your generated hero.mp4 -->
   <video class="hero-video" autoplay muted loop playsinline poster="poster.jpg">
-    <source src="https://cdn.coverr.co/videos/coverr-aerial-view-of-dubai-8748/1080p.mp4" type="video/mp4">
+    <source src="hero.mp4" type="video/mp4">
   </video>
   <div class="hero-overlay"></div>
   <div class="hero-grain"></div>
@@ -668,7 +668,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
       <h2 class="sec-title">Your next residence is<br>also your next investment.</h2>
       <p class="cta-sub">Confidential, obligation-free consultation with our senior advisory team. We'll map your optimal jurisdictions and present a preliminary strategy within 48 hours.</p>
       <button class="btn-primary">Schedule a Private Consultation</button>
-      <p class="cta-email">Or reach us directly at <a href="mailto:invest@palmheightsmiller.com">invest@palmheightsmiller.com</a></p>
+      <p class="cta-email">Or reach us directly at <a href="/cdn-cgi/l/email-protection#41282f372432350131202d2c292428262935322c282d2d24336f222e2c"><span class="__cf_email__" data-cfemail="a8c1c6decddbdce8d8c9c4c5c0cdc1cfc0dcdbc5c1c4c4cdda86cbc7c5">[email&#160;protected]</span></a></p>
       <div class="cta-channels">
         <div class="cta-channel">
           <div class="cta-channel-label">Dubai (HQ)</div>
@@ -778,7 +778,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 
 
 <!-- ═══════ JAVASCRIPT ═══════ -->
-<script>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script>
 var marketData = {
   uae: {
     label: "UAE",
@@ -935,18 +935,4 @@ function initReveals(){
   var els = document.querySelectorAll('.reveal');
   var obs = new IntersectionObserver(function(entries){
     entries.forEach(function(e){
-      if(e.isIntersecting){ e.target.classList.add('vis'); obs.unobserve(e.target); }
-    });
-  }, {threshold: 0.1});
-  els.forEach(function(el){ obs.observe(el); });
-}
-
-document.addEventListener('DOMContentLoaded', function(){
-  renderMarkets();
-  renderMarquee();
-  initReveals();
-});
-</script>
-
-</body>
-</html>
+      if(e.isIntersecting){ e.target.classList.add('v
