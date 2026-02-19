@@ -1,6 +1,20 @@
 <!--
   CHANGELOG
   ═════════
+  v5 — 2026-02-18
+  - FIX: Root cause of zoom/misposition — replaced fixed pixel heights with aspect-ratio containers
+    — Container now matches your crop ratio exactly, so object-fit:cover shows full image, zero zoom
+    — Dest cards: height:200px → aspect-ratio:16/10
+    — Project cards: height:220px → aspect-ratio:16/10
+    — Insight cards: height:210px → aspect-ratio:16/10
+    — About image: height:520px → aspect-ratio:4/5
+    — Divider: height:360px → aspect-ratio:3/1
+  - FIX: Replaced CSS background-image system with real <img> tags
+    — JS now inserts <img> elements with object-fit:cover instead of setting backgroundImage
+    — More predictable rendering across devices, especially mobile
+  - FIX: CTA section now uses <img> tag for background instead of CSS background-image
+  - KEEP: Gradient fallbacks still show if image file is missing
+  
   v4 — 2026-02-18
   - FIX: Reset all background-position to center — crops now handle framing properly
   - Reverted: about-img center 40% → center
@@ -156,7 +170,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .about-text p{font-size:15px;line-height:1.8;color:var(--steel);font-weight:300;margin-bottom:16px}
 .about-text p:first-child::first-letter{font-family:'Cormorant Garamond',serif;font-size:52px;float:left;line-height:1;margin-right:8px;color:var(--gold);font-weight:400}
 .about-img-wrap{position:relative}
-.about-img{width:100%;height:520px;background:linear-gradient(135deg,var(--graphite),var(--slate));background-size:cover;background-position:center;filter:saturate(.85)}
+.about-img{width:100%;aspect-ratio:4/5;background:linear-gradient(135deg,var(--graphite),var(--slate));overflow:hidden;position:relative}
+.about-img img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
 .about-img-frame{position:absolute;top:20px;left:20px;right:-20px;bottom:-20px;border:1px solid var(--gold);opacity:.25;pointer-events:none}
 .about-pillars{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-top:32px}
 .about-pillar{padding:24px;border:1px solid rgba(10,10,11,.06);background:var(--cream);transition:all .3s}
@@ -179,7 +194,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .fear-card p{font-size:13px;line-height:1.7;color:var(--silver);margin-top:10px;font-weight:300}
 
 /* ═══════════════ DIVIDER ═══════════════ */
-.img-divider{width:100%;height:360px;position:relative;overflow:hidden;background:linear-gradient(135deg,var(--charcoal),#1A2744,var(--graphite));background-size:cover;background-position:center}
+.img-divider{width:100%;aspect-ratio:3/1;max-height:400px;position:relative;overflow:hidden;background:linear-gradient(135deg,var(--charcoal),#1A2744,var(--graphite))}
+.img-divider>img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
 .img-divider-overlay{position:absolute;inset:0;background:linear-gradient(180deg,var(--obsidian) 0%,rgba(9,9,11,.4) 30%,rgba(9,9,11,.4) 70%,var(--cream) 100%)}
 .img-divider-text{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;z-index:2}
 .img-divider-text span{font-family:'Cormorant Garamond',serif;font-size:clamp(18px,2.4vw,28px);font-style:italic;color:var(--cream);letter-spacing:2px;text-shadow:0 2px 30px rgba(0,0,0,.5);text-align:center;padding:0 20px}
@@ -197,8 +213,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .dest-card:hover{border-color:rgba(196,162,101,.2);transform:translateY(-3px);box-shadow:0 16px 48px rgba(10,10,11,.08)}
 .dest-card::after{content:'';position:absolute;top:0;left:0;width:100%;height:2px;background:var(--gold);transform:scaleX(0);transform-origin:left;transition:transform .4s}
 .dest-card:hover::after{transform:scaleX(1)}
-.dest-card-img{width:100%;height:200px;background-size:cover;background-position:center;position:relative;transition:transform .6s;filter:saturate(.85)}
-.dest-card:hover .dest-card-img{transform:scale(1.03)}
+.dest-card-img{width:100%;aspect-ratio:16/10;position:relative;overflow:hidden}
+.dest-card-img img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;transition:transform .6s}
+.dest-card:hover .dest-card-img img{transform:scale(1.03)}
 .dest-card-img-wrap{overflow:hidden;position:relative}
 .dest-card-img-wrap::after{content:'';position:absolute;bottom:0;left:0;right:0;height:60px;background:linear-gradient(transparent,var(--white));z-index:1}
 .dest-card-badge{position:absolute;top:14px;left:14px;padding:5px 12px;background:rgba(9,9,11,.55);backdrop-filter:blur(10px);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:500;z-index:2}
@@ -247,9 +264,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .insights-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;margin-top:44px}
 .insight-card{border:1px solid rgba(10,10,11,.06);background:var(--white);overflow:hidden;transition:all .35s}
 .insight-card:hover{transform:translateY(-3px);box-shadow:0 12px 40px rgba(10,10,11,.06)}
-.insight-img{height:210px;background-size:cover;background-position:center;position:relative;overflow:hidden;transition:transform .6s;filter:saturate(.85)}
+.insight-img{aspect-ratio:16/10;position:relative;overflow:hidden}
 .insight-img-wrap{overflow:hidden;position:relative}
-.insight-card:hover .insight-img{transform:scale(1.04)}
+.insight-img img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;transition:transform .6s}
+.insight-card:hover .insight-img img{transform:scale(1.04)}
 .insight-tag{position:absolute;top:14px;left:14px;padding:5px 12px;background:rgba(9,9,11,.6);backdrop-filter:blur(10px);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);font-weight:500;z-index:2}
 .insight-body{padding:24px}
 .insight-date{font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--pewter)}
@@ -260,7 +278,8 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .insight-link svg{width:14px;height:14px}
 
 /* ═══════════════ CTA ═══════════════ */
-.cta-sec{position:relative;text-align:center;overflow:hidden;color:var(--cream);background:linear-gradient(135deg,var(--charcoal),var(--obsidian));background-size:cover;background-position:center}
+.cta-sec{position:relative;text-align:center;overflow:hidden;color:var(--cream);background:linear-gradient(135deg,var(--charcoal),var(--obsidian))}
+.cta-sec>img.cta-bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center}
 .cta-overlay{position:absolute;inset:0;background:rgba(9,9,11,.78)}
 .cta-inner{position:relative;z-index:2;padding:100px 52px}
 .cta-sec .sec-title{color:var(--cream);margin:0 auto;font-size:clamp(26px,3.5vw,40px)}
@@ -313,8 +332,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 .carousel-track::-webkit-scrollbar{display:none}
 .proj-card{min-width:360px;max-width:360px;scroll-snap-align:start;background:var(--graphite);border:1px solid rgba(196,162,101,.08);overflow:hidden;transition:all .35s;flex-shrink:0}
 .proj-card:hover{border-color:rgba(196,162,101,.2);transform:translateY(-3px);box-shadow:0 16px 48px rgba(0,0,0,.3)}
-.proj-card-img{height:220px;background-size:cover;background-position:center;position:relative;overflow:hidden}
-.proj-card-img::after{content:'';position:absolute;bottom:0;left:0;right:0;height:80px;background:linear-gradient(transparent,var(--graphite))}
+.proj-card-img{aspect-ratio:16/10;position:relative;overflow:hidden}
+.proj-card-img img{width:100%;height:100%;object-fit:cover;object-position:center;display:block}
+.proj-card-img::after{content:'';position:absolute;bottom:0;left:0;right:0;height:80px;background:linear-gradient(transparent,var(--graphite));z-index:1}
 .proj-card-dev{position:absolute;top:14px;left:14px;padding:6px 14px;background:rgba(9,9,11,.6);backdrop-filter:blur(10px);font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--cream);font-weight:500;z-index:2;display:flex;align-items:center;gap:6px}
 .proj-card-dev img{height:14px;width:auto;filter:brightness(10)}
 .proj-card-flag{position:absolute;top:14px;right:14px;font-size:22px;z-index:2}
@@ -335,7 +355,7 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 /* ═══════════════ RESPONSIVE ═══════════════ */
 @media(max-width:1024px){
   .about-grid{grid-template-columns:1fr;gap:36px}
-  .about-img{height:360px}
+  .about-img{aspect-ratio:16/10}
   .dest-cards{grid-template-columns:1fr 1fr}
   .services-grid{grid-template-columns:1fr 1fr}
   .insights-grid{grid-template-columns:1fr 1fr}
@@ -371,11 +391,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
   .cta-inner{padding:64px 20px}
   .cta-channels{flex-direction:column;align-items:center;gap:16px}
   .about-pillars{grid-template-columns:1fr}
-  .about-img{height:280px}
+  .about-img{aspect-ratio:16/10}
   .about-img-frame{top:12px;left:12px;right:-12px;bottom:-12px}
-  .img-divider{height:240px}
+  .img-divider{aspect-ratio:2/1}
   .proj-card{min-width:300px;max-width:300px}
-  .proj-card-img{height:180px}
   .projects-header{flex-direction:column;align-items:flex-start;gap:20px}
 }
 </style>
@@ -458,9 +477,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
         <div class="about-pillar"><h4>Risk Diversification</h4><p>Multi-jurisdictional asset and residency layering to hedge against geo-political and regulatory risk.</p></div>
       </div>
     </div>
-    <!-- IMAGE: drop about-hero.jpg in folder to activate -->
+    <!-- IMAGE: drop about-hero.jpg in folder -->
     <div class="about-img-wrap reveal reveal-d2">
-      <div class="about-img" id="aboutImg"></div>
+      <div class="about-img"><img src="about-hero.jpg" alt="Luxury penthouse terrace Dubai" onerror="this.remove()"></div>
       <div class="about-img-frame"></div>
     </div>
   </div>
@@ -480,8 +499,9 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
   </div>
 </section>
 
-<!-- ═══════ DIVIDER — IMAGE: drop divider-yacht.jpg in folder to activate ═══════ -->
-<div class="img-divider" id="dividerImg">
+<!-- ═══════ DIVIDER ═══════ -->
+<div class="img-divider">
+  <img src="divider-yacht.jpg" alt="" onerror="this.remove()">
   <div class="img-divider-overlay"></div>
   <div class="img-divider-text"><span>Three continents. One integrated strategy. Thirty programs. Infinite possibilities.</span></div>
 </div>
@@ -569,22 +589,23 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
   </div>
   <div class="insights-grid reveal reveal-d1">
     <div class="insight-card">
-      <div class="insight-img-wrap"><div class="insight-img" style="background:linear-gradient(135deg,var(--charcoal),#1A2744)"></div><span class="insight-tag">Market Report</span></div>
+      <div class="insight-img-wrap"><div class="insight-img" style="background:linear-gradient(135deg,var(--charcoal),#1A2744)"><img src="insight-dubai.jpg" alt="Dubai architecture" onerror="this.remove()"></div><span class="insight-tag">Market Report</span></div>
       <div class="insight-body"><div class="insight-date">February 2026</div><div class="insight-title">Dubai Real Estate Outlook: Why Net Yields Continue to Outpace Global Peers</div><p class="insight-excerpt">Prime Dubai apartments deliver 5–7% net yields while London and Singapore struggle to breach 2%.</p><a href="#" class="insight-link">Read Report <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
     </div>
     <div class="insight-card">
-      <div class="insight-img-wrap"><div class="insight-img" style="background:linear-gradient(135deg,var(--slate),#1B5E40)"></div><span class="insight-tag">Regulatory Alert</span></div>
+      <div class="insight-img-wrap"><div class="insight-img" style="background:linear-gradient(135deg,var(--slate),#1B5E40)"><img src="insight-visa.jpg" alt="Golden visa documents" onerror="this.remove()"></div><span class="insight-tag">Regulatory Alert</span></div>
       <div class="insight-body"><div class="insight-date">January 2026</div><div class="insight-title">Golden Visa 2026: Which Programs Are Closing — and What Opens Next</div><p class="insight-excerpt">Spain closed. Portugal shifted. Greece restructured. A current-state analysis of every active program.</p><a href="#" class="insight-link">Read Report <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
     </div>
     <div class="insight-card">
-      <div class="insight-img-wrap"><div class="insight-img" style="background:linear-gradient(135deg,var(--gold-muted),var(--charcoal))"></div><span class="insight-tag">Tax Strategy</span></div>
+      <div class="insight-img-wrap"><div class="insight-img" style="background:linear-gradient(135deg,var(--gold-muted),var(--charcoal))"><img src="insight-tax.jpg" alt="Tax strategy" onerror="this.remove()"></div><span class="insight-tag">Tax Strategy</span></div>
       <div class="insight-body"><div class="insight-date">December 2025</div><div class="insight-title">UAE Free Zone vs. US LLC: Structuring Cross-Border Holdings in 2026</div><p class="insight-excerpt">A comparative analysis of holding structures for investors across Dubai, Miami, and European markets.</p><a href="#" class="insight-link">Read Report <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg></a></div>
     </div>
   </div>
 </section>
 
-<!-- ═══════ CTA — IMAGE: drop cta-bg.jpg in folder to activate ═══════ -->
+<!-- ═══════ CTA ═══════ -->
 <section class="cta-sec" id="contact">
+  <img class="cta-bg" src="cta-bg.jpg" alt="" onerror="this.remove()">
   <div class="cta-overlay"></div>
   <div class="cta-inner">
     <div class="reveal">
@@ -628,46 +649,10 @@ button{font-family:inherit;cursor:pointer;border:none;background:none}
 
 <script>
 /*
-  IMAGE ACTIVATION
-  ================
-  All image slots use CSS background-image with gradient defaults.
-  To activate an image, just drop the named file in the same folder.
-  This script checks if each file exists and applies it. If not, gradient stays.
+  IMAGE SYSTEM: All images use <img> tags with onerror="this.remove()"
+  If file exists → image shows. If missing → img removes itself, gradient fallback shows.
+  No JS image loading needed for static images.
 */
-var imageSlots = [
-  {id:'aboutImg', file:'about-hero.jpg'},
-  {id:'dividerImg', file:'divider-yacht.jpg'},
-  {id:'ctaSec', sel:'.cta-sec', file:'cta-bg.jpg'},
-  {id:'insightImg0', sel:'.insight-img-wrap:nth-child(1) .insight-img', file:'insight-dubai.jpg', idx:0},
-  {id:'insightImg1', file:'insight-visa.jpg', idx:1},
-  {id:'insightImg2', file:'insight-tax.jpg', idx:2}
-];
-imageSlots.forEach(function(s){
-  var img = new Image();
-  img.onload = function(){
-    var el = s.id ? document.getElementById(s.id) : document.querySelector(s.sel);
-    if(el) el.style.backgroundImage = 'url('+s.file+')';
-  };
-  img.src = s.file;
-});
-// Insight images by index
-document.querySelectorAll('.insight-img').forEach(function(el,i){
-  var files = ['insight-dubai.jpg','insight-visa.jpg','insight-tax.jpg'];
-  if(files[i]){
-    var img = new Image();
-    img.onload = function(){ el.style.backgroundImage = 'url('+files[i]+')'; };
-    img.src = files[i];
-  }
-});
-// CTA background
-(function(){
-  var img = new Image();
-  img.onload = function(){
-    var el = document.querySelector('.cta-sec');
-    if(el) el.style.backgroundImage = 'url(cta-bg.jpg)';
-  };
-  img.src = 'cta-bg.jpg';
-})();
 
 /* MARKET DATA */
 var marketData = {
@@ -714,18 +699,11 @@ function renderMarkets(){
     m.destinations.forEach(function(d){
       var statsH='';
       d.stats.forEach(function(s){statsH+='<div class="dest-stat"><div class="dest-stat-label">'+s.l+'</div><div class="dest-stat-val">'+s.v+'</div></div>'});
-      cards+='<div class="dest-card"><div class="dest-card-img-wrap"><div class="dest-card-img" style="background:'+d.bg+'" data-img="'+d.img+'"></div><span class="dest-card-badge">'+d.badge+'</span></div><div class="dest-card-body"><div class="dest-city">'+d.flag+' '+d.city+'</div><div class="dest-sub">'+d.sub+'</div><p class="dest-desc">'+d.desc+'</p><div class="dest-stats">'+statsH+'</div></div></div>';
+      cards+='<div class="dest-card"><div class="dest-card-img-wrap"><div class="dest-card-img" style="background:'+d.bg+'"><img src="'+d.img+'" alt="'+d.city+'" onerror="this.remove()"></div><span class="dest-card-badge">'+d.badge+'</span></div><div class="dest-card-body"><div class="dest-city">'+d.flag+' '+d.city+'</div><div class="dest-sub">'+d.sub+'</div><p class="dest-desc">'+d.desc+'</p><div class="dest-stats">'+statsH+'</div></div></div>';
     });
     cards+='</div>';
     panel.innerHTML=cards;
     panels.appendChild(panel);
-  });
-  // Try loading destination images
-  document.querySelectorAll('.dest-card-img[data-img]').forEach(function(el){
-    var f=el.getAttribute('data-img');
-    var img=new Image();
-    img.onload=function(){el.style.backgroundImage='url('+f+')'};
-    img.src=f;
   });
 }
 
@@ -771,7 +749,8 @@ function renderCarousel(){
     var featsHtml = '';
     p.feats.forEach(function(f){ featsHtml += '<div class="proj-card-feat">'+f+'</div>'; });
     html += '<div class="proj-card">' +
-      '<div class="proj-card-img" style="background:'+p.bg+'" data-img="'+p.img+'">' +
+      '<div class="proj-card-img" style="background:'+p.bg+'">' +
+        '<img src="'+p.img+'" alt="'+p.name+'" onerror="this.remove()">' +
         '<div class="proj-card-dev">'+p.dev+'</div>' +
         '<span class="proj-card-flag">'+p.flag+'</span>' +
         '<span class="proj-card-status '+statusClass+'">'+statusText+'</span>' +
@@ -784,13 +763,6 @@ function renderCarousel(){
       '</div></div>';
   });
   track.innerHTML = html;
-  // Try loading project images
-  track.querySelectorAll('.proj-card-img[data-img]').forEach(function(el){
-    var f = el.getAttribute('data-img');
-    var img = new Image();
-    img.onload = function(){ el.style.backgroundImage = 'url('+f+')'; };
-    img.src = f;
-  });
 }
 
 function scrollCarousel(dir){
